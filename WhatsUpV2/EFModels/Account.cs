@@ -33,5 +33,10 @@ namespace WhatsUpV2.EFModels
         {
             return Argon2.Verify(_password, password);
         }
+
+        public Contact GetContactById(int id)
+        {
+            return Contacts.FirstOrDefault(contact => contact.Id == id);
+        }
     }
 }

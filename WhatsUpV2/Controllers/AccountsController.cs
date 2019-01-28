@@ -21,6 +21,12 @@ namespace WhatsUpV2.Controllers
         private WhatsUpContext db = new WhatsUpContext();
         private readonly IAccountRepository _repository = new AccountRepository();
 
+        public ActionResult LogIn()
+        {
+            return View();
+        }
+
+        [HttpPost]
         public async Task<ActionResult> LogIn(LogIn model)
         {
             if (!ModelState.IsValid)

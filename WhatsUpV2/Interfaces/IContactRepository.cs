@@ -11,8 +11,8 @@ namespace WhatsUpV2.Interfaces
     {
         IEnumerable<Contact> GetUserContacts(Account account);
         Task Add(Account account, string username);
-        Task<Contact> Get(int id);
-        Task<Contact> Edit(Contact contact);
-        Task Delete(int id);
+        Contact Get(Account account, int id);
+        Task<Contact> Edit(Account account, int id, string displayName);
+        Task Delete(Account account, int id);
     }
 }
