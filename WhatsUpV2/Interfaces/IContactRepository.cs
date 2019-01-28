@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,8 +12,8 @@ namespace WhatsUpV2.Interfaces
     {
         Task<IEnumerable<Contact>> GetUserContacts(int accountId);
         Task Add(Contact contact);
-        //Contact Get(Account account, int id);
-        Task<Contact> Edit(Account account, int id, string displayName);
-        Task Delete(Account account, int id);
+        Task<Contact> Get(int id);
+        Task Edit(int id, string displayName);
+        Task Delete(Contact contact);
     }
 }

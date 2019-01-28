@@ -27,21 +27,6 @@ namespace WhatsUpV2.Controllers
             return View(await _repository.GetUserContacts(GetSessionUserId()));
         }
 
-        // GET: Contacts/Details/5
-        public async Task<ActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Contact contact = await db.Contacts.FindAsync(id);
-            if (contact == null)
-            {
-                return HttpNotFound();
-            }
-            return View(contact);
-        }
-
         /// <summary>
         ///     Display contact creation page
         /// </summary>
@@ -67,6 +52,7 @@ namespace WhatsUpV2.Controllers
                 return View(contact);
             }
 
+            // Add current user's ID as FK value
             contact.OwnerId = GetSessionUserId();
             await _repository.Add(contact);
 
@@ -81,11 +67,21 @@ namespace WhatsUpV2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Contact contact = await db.Contacts.FindAsync(id);
+
+            var contact = await _repository.Get(id.Value);
+
+            // If not found
             if (contact == null)
             {
                 return HttpNotFound();
             }
+
+            // If it's someone else's contact, don't continue
+            if (contact.OwnerId != GetSessionUserId())
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+            }
+
             return View(contact);
         }
 
@@ -97,13 +93,14 @@ namespace WhatsUpV2.Controllers
         [Authorize]
         public async Task<ActionResult> Edit([Bind(Include = "Id,Username,DisplayName")] Contact contact)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                db.Entry(contact).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return View(contact);
             }
-            return View(contact);
+
+            await _repository.Edit(contact.Id, contact.DisplayName);
+
+            return RedirectToAction("Index", "Contacts");
         }
 
         // GET: Contacts/Delete/5
@@ -114,11 +111,21 @@ namespace WhatsUpV2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Contact contact = await db.Contacts.FindAsync(id);
+
+            var contact = await _repository.Get(id.Value);
+
+            // If not found
             if (contact == null)
             {
                 return HttpNotFound();
             }
+
+            // If it's someone else's contact, don't continue
+            if (contact.OwnerId != GetSessionUserId())
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+            }
+
             return View(contact);
         }
 
@@ -128,10 +135,23 @@ namespace WhatsUpV2.Controllers
         [Authorize]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Contact contact = await db.Contacts.FindAsync(id);
-            db.Contacts.Remove(contact);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            var contact = await _repository.Get(id);
+
+            // If not found
+            if (contact == null)
+            {
+                return HttpNotFound();
+            }
+
+            // If it's someone else's contact, don't continue
+            if (contact.OwnerId != GetSessionUserId())
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+            }
+
+            await _repository.Delete(contact);
+            
+            return RedirectToAction("Index", "Contacts");
         }
 
         protected override void Dispose(bool disposing)
