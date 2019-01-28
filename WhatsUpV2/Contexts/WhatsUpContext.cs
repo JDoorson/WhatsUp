@@ -16,5 +16,7 @@ namespace WhatsUpV2.Contexts
 
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Chat> Chats { get; set; }
+        public DbSet<Message> Messages { get; set; }
     }
 }
