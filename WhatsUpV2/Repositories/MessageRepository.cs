@@ -22,17 +22,26 @@ namespace WhatsUpV2.Repositories
                 .ToListAsync();
         }
 
-        public Task Send(int chatId, string username, string text)
+        public async void Send(int chatId, string username, string text)
         {
+            var chat = await ctx.Chats.FindAsync(chatId);
+            if (chat == null)
+            {
+                return;
+            }
+
             var message = new Message
             {
                 ChatId = chatId,
                 Sender = username,
+                Text = text,
                 SentAt = DateTime.UtcNow
             };
 
             ctx.Messages.Add(message);
-            return ctx.SaveChangesAsync();
+            chat.UpdatedAt = DateTime.UtcNow;
+
+            await ctx.SaveChangesAsync();
         }
 
         public Task<Message> GetMostRecent(int chatId)

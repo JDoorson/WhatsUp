@@ -34,5 +34,10 @@ namespace WhatsUpV2.Repositories
             ctx.Chats.Add(chat);
             return ctx.SaveChangesAsync();
         }
+
+        public Task<Chat> Get(int id)
+        {
+            return ctx.Chats.FindAsync(id);
+        }
     }
 }

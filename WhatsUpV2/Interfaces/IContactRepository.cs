@@ -11,7 +11,7 @@ namespace WhatsUpV2.Interfaces
     interface IContactRepository
     {
         Task<IEnumerable<Contact>> GetUserContacts(int accountId);
-        Task Add(Contact contact);
+        Task Add(Account account, Contact contact);
         Task<Contact> Get(int id);
         Task Edit(int id, string displayName);
         Task Delete(Contact contact);

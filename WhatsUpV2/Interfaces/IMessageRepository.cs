@@ -10,7 +10,7 @@ namespace WhatsUpV2.Interfaces
     interface IMessageRepository
     {
         Task<IEnumerable<Message>> GetChatMessages(int chatId);
-        Task Send(int chatId, string username, string text);
+        void Send(int chatId, string username, string text);
         Task<Message> GetMostRecent(int chatId);
     }
 }

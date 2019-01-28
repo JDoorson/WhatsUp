@@ -52,9 +52,11 @@ namespace WhatsUpV2.Controllers
                 return View(contact);
             }
 
+            var account = GetSessionUser();
+
             // Add current user's ID as FK value
-            contact.OwnerId = GetSessionUserId();
-            await _repository.Add(contact);
+            contact.OwnerId = account.Id;
+            await _repository.Add(account, contact);
 
             return RedirectToAction("Index", "Contacts");
         }

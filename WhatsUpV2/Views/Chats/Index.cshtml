@@ -1,0 +1,39 @@
+﻿@model IEnumerable<WhatsUpV2.EFModels.Chat>
+
+@{
+    ViewBag.Title = "View";
+}
+
+<h2>Chats</h2>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserB)
+        </th>
+        <th>
+            @Html.DisplayName("message")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserB)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GetMostRecentMessage())
+        </td>
+        <td>
+            @Html.ActionLink("View", "Chat", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

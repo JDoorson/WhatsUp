@@ -13,5 +13,11 @@ namespace WhatsUpV2.EFModels
         public DateTime UpdatedAt { get; set; }
 
         public virtual ICollection<Message> Messages { get; set; }
+
+        public string GetMostRecentMessage()
+        {
+            var message = Messages.OrderByDescending(m => m.SentAt).FirstOrDefault();
+            return message?.Text ?? "";
+        }
     }
 }

@@ -25,5 +25,10 @@ namespace WhatsUpV2.Controllers
         {
             return GetSessionUser().Id;
         }
+
+        protected string GetSessionUserName()
+        {
+            return GetSessionUser().Username;
+        }
     }
 }

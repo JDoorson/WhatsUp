@@ -22,10 +22,19 @@ namespace WhatsUpV2.Repositories
         /// <summary>
         ///     Add a new contact to the given user
         /// </summary>
+        /// <param name="account"></param>
         /// <param name="contact"></param>
         /// <returns></returns>
-        public Task Add(Contact contact)
+        public Task Add(Account account, Contact contact)
         {
+            var chat = new Chat
+            {
+                UserA = account.Username,
+                UserB = contact.Username,
+                UpdatedAt = DateTime.UtcNow
+            };
+
+            ctx.Chats.Add(chat);
             ctx.Contacts.Add(contact);
             return ctx.SaveChangesAsync();
         }
