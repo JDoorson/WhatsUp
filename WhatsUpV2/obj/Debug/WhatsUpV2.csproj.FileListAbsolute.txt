@@ -115,3 +115,4 @@ C:\Users\Jamal\Source\Repos\WhatsUpV2\WhatsUpV2\bin\System.Xml.ReaderWriter.dll
 C:\Users\Jamal\Source\Repos\WhatsUpV2\WhatsUpV2\bin\Isopoh.Cryptography.Argon2.xml
 C:\Users\Jamal\Source\Repos\WhatsUpV2\WhatsUpV2\bin\Isopoh.Cryptography.Blake2b.xml
 C:\Users\Jamal\Source\Repos\WhatsUpV2\WhatsUpV2\bin\Isopoh.Cryptography.SecureArray.xml
+C:\Users\Jamal\Source\Repos\WhatsUpV2\WhatsUpV2\obj\Debug\WhatsUpV2.csprojAssemblyReference.cache

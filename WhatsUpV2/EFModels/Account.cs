@@ -11,7 +11,7 @@ namespace WhatsUpV2.EFModels
 {
     public class Account
     {
-        private string _password;
+        //private string _password;
 
         [Key]
         public int Id { get; set; }
@@ -23,20 +23,33 @@ namespace WhatsUpV2.EFModels
 
         [Required]
         [DataType(DataType.Password)]
-        public string Password
-        {
-            get => _password;
-            set => _password = Argon2.Hash(value);
-        }
+        public string Password { get; set; }
 
         public virtual ICollection<Contact> Contacts { get; set; }
 
-        public bool VerifyPassword(string password)
+        /// <summary>
+        ///     Hashes the password using Argon2
+        /// </summary>
+        public void HashPassword()
         {
-            //return Argon2.Verify(_password, password);
-            return _password == password;
+            Password = Argon2.Hash(Password);
         }
 
+        /// <summary>
+        ///     Verifies the password hash against a given string
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public bool VerifyPassword(string password)
+        {
+            return Argon2.Verify(Password, password);
+        }
+
+        /// <summary>
+        ///     Retrieve a contact by its ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Contact GetContactById(int id)
         {
             return Contacts.FirstOrDefault(contact => contact.Id == id);

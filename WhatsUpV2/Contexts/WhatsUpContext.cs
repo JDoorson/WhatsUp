@@ -9,6 +9,11 @@ namespace WhatsUpV2.Contexts
 {
     public class WhatsUpContext : DbContext
     {
+        public WhatsUpContext() : base("name=SQLServer")
+        {
+
+        }
+
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Contact> Contacts { get; set; }
     }

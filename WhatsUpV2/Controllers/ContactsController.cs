@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using WhatsUpV2.Constants;
 using WhatsUpV2.Contexts;
 using WhatsUpV2.EFModels;
 using WhatsUpV2.Interfaces;
@@ -14,7 +15,7 @@ using WhatsUpV2.Repositories;
 
 namespace WhatsUpV2.Controllers
 {
-    public class ContactsController : Controller
+    public class ContactsController : ControllerBase
     {
         private WhatsUpContext db = new WhatsUpContext();
         private readonly IContactRepository _repository = new ContactRepository();
@@ -23,7 +24,7 @@ namespace WhatsUpV2.Controllers
         [Authorize]
         public async Task<ActionResult> Index()
         {
-            return View(await db.Contacts.ToListAsync());
+            return View(await _repository.GetUserContacts(GetSessionUserId()));
         }
 
         // GET: Contacts/Details/5
@@ -41,29 +42,35 @@ namespace WhatsUpV2.Controllers
             return View(contact);
         }
 
-        // GET: Contacts/Create
+        /// <summary>
+        ///     Display contact creation page
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Contacts/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        ///     Handle contact creation
+        /// </summary>
+        /// <param name="contact"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Username,DisplayName")] Contact contact)
+        public async Task<ActionResult> Create([Bind(Include = "Username,DisplayName")] Contact contact)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                db.Contacts.Add(contact);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return View(contact);
             }
 
-            return View(contact);
+            contact.OwnerId = GetSessionUserId();
+            await _repository.Add(contact);
+
+            return RedirectToAction("Index", "Contacts");
         }
 
         // GET: Contacts/Edit/5

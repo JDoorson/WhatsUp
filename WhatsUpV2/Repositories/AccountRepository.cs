@@ -37,6 +37,7 @@ namespace WhatsUpV2.Repositories
 
         public Task Register(Account account)
         {
+            account.HashPassword();
             ctx.Accounts.Add(account);
             return ctx.SaveChangesAsync();
         }

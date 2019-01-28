@@ -11,6 +11,7 @@ namespace WhatsUpV2.EFModels
         public string Username { get; set; }
         public string DisplayName { get; set; }
 
+        public int OwnerId { get; set; }
         public virtual Account Owner { get; set; }
     }
 }

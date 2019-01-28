@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -13,37 +14,19 @@ namespace WhatsUpV2.Repositories
     {
         private readonly WhatsUpContext ctx = new WhatsUpContext();
 
-        /// <summary>
-        ///     Retrieve all contacts for the given user
-        /// </summary>
-        /// <param name="account"></param>
-        /// <returns></returns>
-        public IEnumerable<Contact> GetUserContacts(Account account)
+        public async Task<IEnumerable<Contact>> GetUserContacts(int accountId)
         {
-            return account.Contacts.ToList();
+            return await ctx.Contacts.Where(c => c.OwnerId == accountId).OrderBy(c => c.DisplayName).ToListAsync();
         }
 
         /// <summary>
         ///     Add a new contact to the given user
         /// </summary>
-        /// <param name="account"></param>
-        /// <param name="username"></param>
+        /// <param name="contact"></param>
         /// <returns></returns>
-        public Task Add(Account account, string username)
+        public Task Add(Contact contact)
         {
-            // If username is current user or username exists in contacts
-            if (account.Username == username ||
-                account.Contacts.SingleOrDefault(contact => contact.Username == username) != null)
-            {
-                return Task.CompletedTask;
-            }
-
-            // Add new contact
-            account.Contacts.Add(new Contact
-            {
-                Username = username,
-                DisplayName = username
-            });
+            ctx.Contacts.Add(contact);
             return ctx.SaveChangesAsync();
         }
 
