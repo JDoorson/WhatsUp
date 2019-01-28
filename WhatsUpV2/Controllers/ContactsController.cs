@@ -20,6 +20,7 @@ namespace WhatsUpV2.Controllers
         private readonly IContactRepository _repository = new ContactRepository();
 
         // GET: Contacts
+        [Authorize]
         public async Task<ActionResult> Index()
         {
             return View(await db.Contacts.ToListAsync());
@@ -41,6 +42,7 @@ namespace WhatsUpV2.Controllers
         }
 
         // GET: Contacts/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -51,6 +53,7 @@ namespace WhatsUpV2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<ActionResult> Create([Bind(Include = "Id,Username,DisplayName")] Contact contact)
         {
             if (ModelState.IsValid)
@@ -64,6 +67,7 @@ namespace WhatsUpV2.Controllers
         }
 
         // GET: Contacts/Edit/5
+        [Authorize]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -83,6 +87,7 @@ namespace WhatsUpV2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<ActionResult> Edit([Bind(Include = "Id,Username,DisplayName")] Contact contact)
         {
             if (ModelState.IsValid)
@@ -95,6 +100,7 @@ namespace WhatsUpV2.Controllers
         }
 
         // GET: Contacts/Delete/5
+        [Authorize]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -112,6 +118,7 @@ namespace WhatsUpV2.Controllers
         // POST: Contacts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Contact contact = await db.Contacts.FindAsync(id);

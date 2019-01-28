@@ -10,5 +10,6 @@ namespace WhatsUpV2.Interfaces
     interface IAccountRepository
     {
         Task<Account> LogIn(string username, string password);
+        Task Register(Account account);
     }
 }

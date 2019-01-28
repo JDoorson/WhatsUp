@@ -27,8 +27,9 @@ namespace WhatsUpV2.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> LogIn(LogIn model)
+        public async Task<ActionResult> LogIn([Bind(Include = "Username,Password")] Account model)
         {
+            Console.WriteLine("...");
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -38,7 +39,7 @@ namespace WhatsUpV2.Controllers
             var account = await _repository.LogIn(model.Username, model.Password);
             if (account == null)
             {
-                ModelState.AddModelError("login-err", "The username or password is incorrect.");
+                ModelState.AddModelError("login-err", $"The username ({model.Username}) or password ({model.Password}) is incorrect.");
                 return View(model);
             }
 
@@ -90,16 +91,16 @@ namespace WhatsUpV2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Username,Password")] Account account)
+        public async Task<ActionResult> Create([Bind(Include = "Username,Password")] Account account)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                db.Accounts.Add(account);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return View(account);
             }
 
-            return View(account);
+            await _repository.Register(account);
+
+            return RedirectToAction("LogIn");
         }
 
         // GET: Accounts/Edit/5

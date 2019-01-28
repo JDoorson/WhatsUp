@@ -12,6 +12,7 @@ namespace WhatsUpV2.Models
         public string Username;
 
         [Required]
+        [DataType(DataType.Password)]
         public string Password;
     }
 }

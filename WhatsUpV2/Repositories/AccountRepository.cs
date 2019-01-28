@@ -34,5 +34,11 @@ namespace WhatsUpV2.Repositories
             // Account null or password incorrect
             return null;
         }
+
+        public Task Register(Account account)
+        {
+            ctx.Accounts.Add(account);
+            return ctx.SaveChangesAsync();
+        }
     }
 }

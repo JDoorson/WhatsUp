@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using Isopoh.Cryptography.Argon2;
 
 namespace WhatsUpV2.EFModels
@@ -21,6 +22,7 @@ namespace WhatsUpV2.EFModels
         public string Username { get; set; }
 
         [Required]
+        [DataType(DataType.Password)]
         public string Password
         {
             get => _password;
@@ -31,7 +33,8 @@ namespace WhatsUpV2.EFModels
 
         public bool VerifyPassword(string password)
         {
-            return Argon2.Verify(_password, password);
+            //return Argon2.Verify(_password, password);
+            return _password == password;
         }
 
         public Contact GetContactById(int id)
