@@ -20,11 +20,13 @@ namespace WhatsUpV2.Controllers
         ///     List all of the chats
         /// </summary>
         /// <returns></returns>
+        [Authorize]
         public async Task<ActionResult> Index()
         {
             return View(await _chatRepository.GetChats(GetSessionUserName()));
         }
 
+        [Authorize]
         public async Task<ActionResult> Chat(int? id)
         {
             if (!id.HasValue)
@@ -46,6 +48,14 @@ namespace WhatsUpV2.Controllers
             }
 
             return View(await _messageRepository.GetChatMessages(id.Value));
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult> Send(int chatId)
+        {
+            await _messageRepository.Send(chatId, GetSessionUserName(), Request.Form["messageText"]);
+            return RedirectToAction("Chat", new {id = chatId});
         }
     }
 }

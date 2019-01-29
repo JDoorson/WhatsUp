@@ -4,48 +4,24 @@
     ViewBag.Title = "Chat";
 }
 
-<h2>Chat</h2>
+<h2>Messages</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Chat.UserA)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Sender)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Text)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SentAt)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Chat.UserA)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Sender)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Text)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SentAt)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
+@using (Html.BeginForm("Send", "Chats", new { chatId = ViewContext.RouteData.Values["id"] }))
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Editor("messageText", new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <input type="submit" value="Send" class="btn btn-default" />
+        </div>
+    </div>
 }
 
-</table>
+@foreach (var item in Model)
+{
+
+    <p>
+        <b>@item.Sender</b>:@item.Text
+    </p>
+}

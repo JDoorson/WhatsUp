@@ -12,14 +12,12 @@ using WhatsUpV2.Constants;
 using WhatsUpV2.Contexts;
 using WhatsUpV2.EFModels;
 using WhatsUpV2.Interfaces;
-using WhatsUpV2.Models;
 using WhatsUpV2.Repositories;
 
 namespace WhatsUpV2.Controllers
 {
     public class AccountsController : ControllerBase
     {
-        private WhatsUpContext db = new WhatsUpContext();
         private readonly IAccountRepository _repository = new AccountRepository();
 
         /// <summary>
@@ -98,15 +96,6 @@ namespace WhatsUpV2.Controllers
             await _repository.Register(account);
 
             return RedirectToAction("LogIn");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

@@ -28,10 +28,13 @@
             @Html.DisplayFor(modelItem => item.UserB)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.GetMostRecentMessage())
+            @{
+                var recentMsg = item.GetMostRecentMessage();
+            }
+            @Html.DisplayFor(modelItem => recentMsg)
         </td>
         <td>
-            @Html.ActionLink("View", "Chat", new { id=item.Id })
+            @Html.ActionLink("View chat", "Chat", new { id=item.Id })
         </td>
     </tr>
 }

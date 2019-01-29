@@ -22,7 +22,7 @@ namespace WhatsUpV2.Repositories
                 .ToListAsync();
         }
 
-        public async void Send(int chatId, string username, string text)
+        public async Task Send(int chatId, string username, string text)
         {
             var chat = await ctx.Chats.FindAsync(chatId);
             if (chat == null)
