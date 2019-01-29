@@ -93,6 +93,12 @@ namespace WhatsUpV2.Controllers
                 return View(account);
             }
 
+            if (!await _repository.UsernameIsAvailable(account.Username))
+            {
+                ModelState.AddModelError("register-err", "This username is already in use.");
+                return View(account);
+            }
+
             await _repository.Register(account);
 
             return RedirectToAction("LogIn");

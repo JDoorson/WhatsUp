@@ -26,6 +26,11 @@ namespace WhatsUpV2.Controllers
             return View(await _chatRepository.GetChats(GetSessionUserName()));
         }
 
+        /// <summary>
+        ///     Display a chat
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize]
         public async Task<ActionResult> Chat(int? id)
         {
@@ -50,6 +55,11 @@ namespace WhatsUpV2.Controllers
             return View(await _messageRepository.GetChatMessages(id.Value));
         }
 
+        /// <summary>
+        ///     Send a message to a chat
+        /// </summary>
+        /// <param name="chatId"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         public async Task<ActionResult> Send(int chatId)

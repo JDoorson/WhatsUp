@@ -14,6 +14,11 @@ namespace WhatsUpV2.Repositories
     {
         private readonly WhatsUpContext ctx = new WhatsUpContext();
 
+        /// <summary>
+        ///     Retrieve all of a chat's messages
+        /// </summary>
+        /// <param name="chatId"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<Message>> GetChatMessages(int chatId)
         {
             return await ctx.Messages
@@ -22,6 +27,13 @@ namespace WhatsUpV2.Repositories
                 .ToListAsync();
         }
 
+        /// <summary>
+        ///     Send a message to a chat
+        /// </summary>
+        /// <param name="chatId"></param>
+        /// <param name="username"></param>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public async Task Send(int chatId, string username, string text)
         {
             var chat = await ctx.Chats.FindAsync(chatId);
@@ -44,6 +56,11 @@ namespace WhatsUpV2.Repositories
             await ctx.SaveChangesAsync();
         }
 
+        /// <summary>
+        ///     Get the most recent message of a chat
+        /// </summary>
+        /// <param name="chatId"></param>
+        /// <returns></returns>
         public Task<Message> GetMostRecent(int chatId)
         {
             return ctx.Messages

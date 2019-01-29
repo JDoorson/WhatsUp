@@ -14,6 +14,11 @@ namespace WhatsUpV2.Repositories
     {
         private readonly WhatsUpContext ctx = new WhatsUpContext();
 
+        /// <summary>
+        ///     Retrieve all chats
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<Chat>> GetChats(string username)
         {
             return await ctx.Chats
@@ -22,19 +27,11 @@ namespace WhatsUpV2.Repositories
                 .ToListAsync();
         }
 
-        public Task Create(Account account, Contact contact)
-        {
-            var chat = new Chat
-            {
-                UserA = account.Username,
-                UserB = contact.Username,
-                UpdatedAt = DateTime.UtcNow
-            };
-
-            ctx.Chats.Add(chat);
-            return ctx.SaveChangesAsync();
-        }
-
+        /// <summary>
+        ///     Retrieve a chat
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Task<Chat> Get(int id)
         {
             return ctx.Chats.FindAsync(id);

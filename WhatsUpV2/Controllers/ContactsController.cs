@@ -20,7 +20,10 @@ namespace WhatsUpV2.Controllers
         private WhatsUpContext db = new WhatsUpContext();
         private readonly IContactRepository _repository = new ContactRepository();
 
-        // GET: Contacts
+        /// <summary>
+        ///     Get all of the current user's contacts
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         public async Task<ActionResult> Index()
         {
@@ -61,7 +64,11 @@ namespace WhatsUpV2.Controllers
             return RedirectToAction("Index", "Contacts");
         }
 
-        // GET: Contacts/Edit/5
+        /// <summary>
+        ///     Display the edit page
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize]
         public async Task<ActionResult> Edit(int? id)
         {
@@ -87,9 +94,11 @@ namespace WhatsUpV2.Controllers
             return View(contact);
         }
 
-        // POST: Contacts/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        ///     Edit a contact
+        /// </summary>
+        /// <param name="contact"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
@@ -105,7 +114,11 @@ namespace WhatsUpV2.Controllers
             return RedirectToAction("Index", "Contacts");
         }
 
-        // GET: Contacts/Delete/5
+        /// <summary>
+        ///     Display the delete contact page
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize]
         public async Task<ActionResult> Delete(int? id)
         {
@@ -131,7 +144,11 @@ namespace WhatsUpV2.Controllers
             return View(contact);
         }
 
-        // POST: Contacts/Delete/5
+        /// <summary>
+        ///     Delete a contact
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize]

@@ -35,11 +35,27 @@ namespace WhatsUpV2.Repositories
             return null;
         }
 
+        /// <summary>
+        ///     Register a user
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
         public Task Register(Account account)
         {
             account.HashPassword();
             ctx.Accounts.Add(account);
             return ctx.SaveChangesAsync();
+        }
+
+        /// <summary>
+        ///     Check if a username is available
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public async Task<bool> UsernameIsAvailable(string username)
+        {
+            var account = await ctx.Accounts.SingleOrDefaultAsync(a => a.Username == username);
+            return account == null;
         }
     }
 }

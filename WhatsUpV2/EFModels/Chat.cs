@@ -14,6 +14,10 @@ namespace WhatsUpV2.EFModels
 
         public virtual ICollection<Message> Messages { get; set; }
 
+        /// <summary>
+        ///     Retrieve the most recent message
+        /// </summary>
+        /// <returns></returns>
         public string GetMostRecentMessage()
         {
             var message = Messages.OrderByDescending(m => m.SentAt).FirstOrDefault();

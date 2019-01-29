@@ -10,7 +10,6 @@ namespace WhatsUpV2.Interfaces
     interface IChatRepository
     {
         Task<IEnumerable<Chat>> GetChats(string username);
-        Task Create(Account account, Contact contact);
         Task<Chat> Get(int chatId);
     }
 }
